@@ -5,8 +5,8 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = "1.24"
 
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  vpc_id                         = module.vpc.vpc_id
+  subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
@@ -18,21 +18,21 @@ module "eks" {
     one = {
       name = "node-group-1"
 
-      instance_types = ["t3.small"]
+      instance_types = ["t2.micro"]
 
       min_size     = 1
       max_size     = 3
       desired_size = 2
     }
 
-    two = {
-      name = "node-group-2"
+    #    two = {
+    #      name = "node-group-2"
 
-      instance_types = ["t3.small"]
-
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
-    }
+    #      instance_types = ["t3.small"]
+    #
+    #      min_size     = 1
+    #      max_size     = 2
+    #      desired_size = 1
+    #    }
   }
 }

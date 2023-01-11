@@ -9,16 +9,26 @@ provider "kubernetes" {
 }
 
 provider "aws" {
-  region = var.region
+  region  = var.region
+  profile = var.profile
 }
 
 data "aws_availability_zones" "available" {}
 
 locals {
-  cluster_name = "education-eks-${random_string.suffix.result}"
+  cluster_name = "eks-${random_string.suffix.result}"
 }
 
 resource "random_string" "suffix" {
   length  = 8
   special = false
+}
+
+terraform {
+  backend "s3" {
+    bucket  = "anderson-ferreira"
+    key     = "terraform-state/tf-eks-cluster/terraform.tfstate"
+    region  = "us-east-1"
+    profile = "anderson"
+  }
 }
