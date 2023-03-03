@@ -8,6 +8,11 @@ output "cluster_security_group_id" {
   value       = module.eks.cluster_security_group_id
 }
 
+output "intra_subnets_id" {
+  description = "CNI subnets ids"
+  value       = module.vpc.intra_subnets
+}
+
 output "region" {
   description = "AWS region"
   value       = var.region
