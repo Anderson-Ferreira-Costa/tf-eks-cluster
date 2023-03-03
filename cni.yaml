@@ -1,0 +1,8 @@
+apiVersion: crd.k8s.amazonaws.com/v1alpha1
+kind: ENIConfig
+metadata: 
+  name: cni
+spec: 
+  securityGroups: 
+    - sg-081440f0b5d717f88
+  subnet: subnet-0543ae758dfc00f3c
