@@ -3,7 +3,7 @@ module "eks" {
   version = "19.0.4"
 
   cluster_name    = local.cluster_name
-  cluster_version = "1.24"
+  cluster_version = "1.25"
 
   vpc_id                         = module.vpc.vpc_id
   subnet_ids                     = module.vpc.public_subnets
@@ -11,7 +11,6 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
-    root_volume_type = "gp3"
   }
 
   eks_managed_node_groups = {
@@ -19,8 +18,8 @@ module "eks" {
       name = "node-group"
       instance_types = ["t3.micro"]
       min_size     = 1
-      max_size     = 1
-      desired_size = 2
+      max_size     = 3
+      desired_size = 1
     }
   }
  }
