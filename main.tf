@@ -1,6 +1,6 @@
 provider "aws" {
   region = local.region
-  profile = "anderson"
+  # profile = "anderson"
 }
 
 data "aws_caller_identity" "current" {}
@@ -8,7 +8,7 @@ data "aws_availability_zones" "available" {}
 
 locals {
   name            = "my-eks"
-  cluster_version = "1.28"
+  cluster_version = "1.29"
   region          = "us-east-1"
 
   vpc_cidr = "11.0.0.0/16"
@@ -67,23 +67,36 @@ module "eks" {
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
 
-  eks_managed_node_group_defaults = {
-    ami_type       = "AL2_x86_64"
-    instance_types = ["t3.micro"]
-  }
-
   eks_managed_node_groups = {
-    # Default node group - as provided by AWS EKS
-    default_node_group = {
-      # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
-      # so we need to disable it to use the default template provided by the AWS EKS managed node group service
-      use_custom_launch_template = false
 
+    default_node_group = {
+
+      ami_type       = "AL2_x86_64"
+      instance_types = ["t3.micro"]
+      
       min_size     = 1
       max_size     = 10
       desired_size = 3
 
-      disk_size = 10
+      block_device_mappings = {
+        xvda = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = 10
+            volume_type           = "gp3"
+            iops                  = 3000
+            throughput            = 125
+            encrypted             = true
+            delete_on_termination = true
+          }
+        }
+      }
+      metadata_options = {
+        http_endpoint               = "enabled"
+        http_tokens                 = "required"
+        http_put_response_hop_limit = 2
+        instance_metadata_tags      = "disabled"
+      }
     }
   }
 }
