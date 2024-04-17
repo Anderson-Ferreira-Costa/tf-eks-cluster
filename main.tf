@@ -73,7 +73,7 @@ module "eks" {
 
       ami_type       = "AL2_x86_64"
       instance_types = ["t3.micro"]
-      
+
       min_size     = 1
       max_size     = 10
       desired_size = 3
@@ -113,8 +113,8 @@ module "vpc" {
   public_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 48)]
   intra_subnets   = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 52)]
 
-  enable_nat_gateway     = true
-  single_nat_gateway     = true
+  enable_nat_gateway = true
+  single_nat_gateway = true
   # enable_ipv6            = enable
   create_egress_only_igw = true
 
