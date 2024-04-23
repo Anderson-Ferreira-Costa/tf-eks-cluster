@@ -1,6 +1,6 @@
 provider "aws" {
   region  = local.region
-  profile = "anderson"
+  # profile = "anderson"
 }
 
 locals {
@@ -32,16 +32,10 @@ module "eks" {
     kube-proxy = {
       most_recent = true
     }
-    vpc-cni = {
-      most_recent = true
-    }
   }
 
   vpc_id     = local.vpc_id
   subnet_ids = local.subnet_ids
-  # vpc_id                   = module.vpc.vpc_id
-  # subnet_ids               = module.vpc.private_subnets
-  # control_plane_subnet_ids = module.vpc.intra_subnets
 
   eks_managed_node_groups = {
 
