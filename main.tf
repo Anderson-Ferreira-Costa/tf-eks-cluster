@@ -25,15 +25,6 @@ module "eks" {
   cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
 
-  cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-  }
-
   vpc_id     = local.vpc_id
   subnet_ids = local.subnet_ids
 
